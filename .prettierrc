@@ -3,5 +3,6 @@
     "semi": true,
     "jsxSingleQuote": false,
     "tabWidth": 4,
-    "endOfLine": "lf"
+    "endOfLine": "lf",
+    "printWidth": 80
 }
