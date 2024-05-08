@@ -45,14 +45,5 @@ defineComponent({
         Form,
         TextInput
     },
-    methods: {
-
-        isRequired(value: string) {
-            if (value && value.trim()) {
-                return true
-            }
-            return "This field is required"
-        }
-    }
 });
 </script>
