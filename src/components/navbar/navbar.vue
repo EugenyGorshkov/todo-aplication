@@ -8,6 +8,8 @@
                 </RouterLink>
                 <RouterLink to="/sign-up" activeClass="btn btn-accent text-xl" class="btn  text-xl">
                     Sign Up</RouterLink>
+                <RouterLink to="/to-do" activeClass="btn btn-accent text-xl" class="btn  text-xl">
+                    To Do</RouterLink>
             </li>
         </ul>
     </nav>
