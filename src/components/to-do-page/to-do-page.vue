@@ -1,43 +1,46 @@
 <template>
     <div class="container mx-auto p-5">
-        <p class="text-center mt-5 mb-5 font-bold">Create your to do here</p>
-        <form action="" className="flex flex-col justify-center mx-auto max-w-xl gap-5">
-            <label className="form-control w-full">
-                <div className="label">
-                    <span className="label-text">Title</span>
-                </div>
-                <input type="text" placeholder="Type title here..." className="input input-bordered w-full " />
-            </label>
-            <label className="form-control w-full">
-                <div className="label">
-                    <span className="label-text">Description</span>
-                </div>
-                <textarea className="textarea textarea-bordered textarea-md w-full "
-                    placeholder="Type description here..."></textarea>
-            </label>
-            <label className="form-control w-full">
-                <div className="label">
-                    <span className="label-text">Select task importance</span>
-                </div>
-                <select class="select select-bordered" v-model="selectedOption" v-bind:class="selectedOption">
-                    <option value="select-neutral" selected>Neutral</option>
-                    <option value="select-accent">Accent</option>
-                    <option value="select-warning">Warning</option>
-                    <option value="select-error">Error</option>
-                </select>
-            </label>
-            <button className="btn btn-accent">Create task</button>
-        </form>
+        <ToDoPageCreateForm :handleFormSubmit="handleFormSubmit" />
+        <div class="flex flex-col gap-5 mt-5 max-w-4xl justify-center mx-auto">
+            <div v-if="isFetching">Загрузка</div>
+            <ToDo v-else-if="!isFetching" v-for="todo in data" :todo="todo" />
+        </div>
     </div>
 </template>
 
 
 <script setup lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
+import { useFetch } from '@vueuse/core';
 
-const selectedOption = ref('select-neutral');
+import ToDoPageCreateForm from './to-do-page-create-form.vue';
+import ToDo from './to-do-page-todo.vue';
+
+const ApiUrl = 'https://localhost:7027/api/ToDo'
+const { isFetching, error, data }: any = useFetch(ApiUrl).json()
+
+
+
+const handleFormSubmit = async (data: any) => {
+    // Обработка данных формы
+    console.log('Submitted data:', data);
+
+    await useFetch(ApiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).text();
+};
+
+
 
 defineComponent({
     name: "ToDoPage",
+    components: {
+        ToDoPageCreateForm,
+        ToDo,
+    }
 })
 </script>
