@@ -1,6 +1,6 @@
 <template>
 
-    <div :class="getClassNames" :id="todo?.id">
+    <div :class="getClassNames" :id="todo.id">
         <div class="flex justify-between">
             <h2>
                 {{ todo?.header }}
@@ -11,7 +11,7 @@
                 </svg>
             </button>
         </div>
-        <div>{{ todo?.text }}</div>
+        <div>{{ todo.text }}</div>
     </div>
 </template>
 
@@ -23,6 +23,7 @@ import { useFetch } from '@vueuse/core';
 const props = defineProps({
     todo: {
         type: Object,
+        required: true
     },
 });
 
@@ -30,10 +31,10 @@ const props = defineProps({
 
 const getClassNames = computed(() => {
     return cn('border rounded-md p-5 flex flex-col', {
-        'border-neutral': props.todo?.color === 'neutral',
-        'border-accent': props.todo?.color === 'accent',
-        'border-warning': props.todo?.color === 'warning',
-        'border-error': props.todo?.color === 'error'
+        'border-neutral': props.todo.color === 'neutral',
+        'border-accent': props.todo.color === 'accent',
+        'border-warning': props.todo.color === 'warning',
+        'border-error': props.todo.color === 'error'
     });
 })
 
@@ -47,6 +48,8 @@ const onClickHandler = async (id: number) => {
             'Content-Type': 'application/json'
         },
     });
+
+    location.reload()
 }
 
 defineComponent({

@@ -1,9 +1,12 @@
 <template>
     <div class="container mx-auto p-5">
         <ToDoPageCreateForm :handleFormSubmit="handleFormSubmit" />
-        <div class="flex flex-col gap-5 mt-5 max-w-4xl justify-center mx-auto">
+        <div class="flex flex-col gap-5 mt-10 max-w-4xl justify-center mx-auto">
             <div v-if="isFetching">Загрузка</div>
             <ToDo v-else-if="!isFetching" v-for="todo in data" :todo="todo" />
+            <div v-if="data.length == 0">
+                <p class="text-center font-bold text-xl">No tasks created yet</p>
+            </div>
         </div>
     </div>
 </template>
@@ -23,7 +26,6 @@ const { isFetching, error, data }: any = useFetch(ApiUrl).json()
 
 const handleFormSubmit = async (data: any) => {
     // Обработка данных формы
-    console.log('Submitted data:', data);
 
     await useFetch(ApiUrl, {
         method: 'POST',
@@ -32,6 +34,8 @@ const handleFormSubmit = async (data: any) => {
         },
         body: JSON.stringify(data)
     }).text();
+
+    location.reload()
 };
 
 
