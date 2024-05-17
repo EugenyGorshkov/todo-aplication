@@ -30,7 +30,6 @@
             </select>
         </label>
         <button className="btn btn-accent">Create task</button>
-
     </form>
 </template>
 
@@ -43,15 +42,11 @@ interface IFormData {
 }
 
 import { useField, useForm } from 'vee-validate';
-import { computed, defineComponent, reactive, ref } from 'vue';
+import { computed, defineComponent } from 'vue';
 import cn from "classnames"
 import * as Yup from 'yup';
 
-const props = defineProps<{
-    handleFormSubmit: (data: any) => void;
-}>()
-
-const { handleSubmit, values, resetForm } = useForm<IFormData>({
+const { handleSubmit, resetForm } = useForm<IFormData>({
     initialValues: {
         header: '',
         text: '',
@@ -72,13 +67,13 @@ const getClassNames = computed(() => {
     });
 })
 
+// обработка формы колл бек функцией сделанной через emit
+const emit = defineEmits(['submit'])
 
-
-// обработка формы колл бек функцией полученной в пропсах
 const onSubmit = handleSubmit((values) => {
-    // console.log(values)
-    // console.log(JSON.stringify(values))
-    props.handleFormSubmit(values);
+
+    emit('submit', values)
+
     resetForm({
         values: {
             header: '',
@@ -87,6 +82,8 @@ const onSubmit = handleSubmit((values) => {
         },
     });
 });
+
+
 
 defineComponent({
     name: "ToDoPageCreateForm",

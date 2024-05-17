@@ -40,7 +40,6 @@ const getClassNames = computed(() => {
 
 const onClickHandler = async (id: number) => {
     const ApiUrl = 'https://localhost:7027/api/ToDo/' + id
-    console.log(id)
 
     await useFetch(ApiUrl, {
         method: 'Delete',
