@@ -22,8 +22,17 @@ import { defineComponent } from 'vue';
 import { Form } from 'vee-validate';
 import TextInput from "./text-input.vue"
 import * as Yup from 'yup';
+import { useFetch } from '@vueuse/core';
 
+interface IRegisterRequestData {
+    firsName: string,
+    lastName: string,
+    email: string,
+    password: string,
+    role: string
+}
 
+const ApiUrl = 'https://localhost:7027/api/Auth/register'
 
 const schema = Yup.object().shape({
     first_name: Yup.string().min(3).required().label('First name'),
@@ -35,8 +44,25 @@ const schema = Yup.object().shape({
         .oneOf([Yup.ref('password')], 'Passwords do not match'),
 });
 
-function onSubmit(values: any) {
-    alert(JSON.stringify(values, null, 2));
+async function onSubmit(values: any) {
+    // Обработка данных формы
+    values.role = "user"
+    const requestValues: IRegisterRequestData = {
+        firsName: values.first_name,
+        lastName: values.last_name,
+        email: values.email,
+        password: values.password,
+        role: "user"
+    }
+    await useFetch(ApiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestValues)
+    }).text();
+
+    location.reload()
 }
 
 defineComponent({
@@ -44,6 +70,6 @@ defineComponent({
     components: {
         Form,
         TextInput
-    },
+    }
 });
 </script>
