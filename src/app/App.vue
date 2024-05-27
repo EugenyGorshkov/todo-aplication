@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import NavBar from './components/navbar/navbar.vue';
+import NavBar from '../components/navbar/navbar.vue';
 
 export default defineComponent({
   name: "App",
